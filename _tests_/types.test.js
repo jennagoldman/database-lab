@@ -1,18 +1,29 @@
 const {
   isNumber,
+  isString,
   castToNumber,
+  castToString,
   getCaster
 } = require('../lib/types.js');
 
 describe('validator module', () => {
   describe('basic validation', () => {
-    it('properly tells if a value is a numbers', () => {
+    it('properly tells if a value is a number', () => {
       expect(isNumber(3)).toBeTruthy();
       expect(isNumber('hi')).toBeFalsy();
       expect(isNumber([])).toBeFalsy();
       expect(isNumber({})).toBeFalsy();
       expect(isNumber(() => {})).toBeFalsy();
       expect(isNumber(true)).toBeFalsy();
+    });
+
+    it('properly tells if a value is a string', () => {
+      expect(isString('hello')).toBeTruthy();
+      expect(isString(1)).toBeFalsy();
+      expect(isString([])).toBeFalsy();
+      expect(isString({})).toBeFalsy();
+      expect(isString(() => {})).toBeFalsy();
+      expect(isString(true)).toBeFalsy();
     });
   });
 
@@ -24,6 +35,11 @@ describe('validator module', () => {
       expect(castToNumber(false)).toEqual(0);
     });
 
+    it('can cast values to a string', () => {
+      expect(castToString(3)).toEqual('3');
+      expect(castToString(true)).toEqual('true');
+    });
+
     it('throws if value is not castable to number', () => {
       expect(() => castToNumber('hi')).toThrowErrorMatchingSnapshot();
       expect(() => castToNumber({})).toThrowErrorMatchingSnapshot();
@@ -31,6 +47,7 @@ describe('validator module', () => {
 
     it('can get the right caster', () => {
       expect(getCaster(Number)).toEqual(castToNumber);
+      expect(getCaster(String)).toEqual(castToString);
       expect(getCaster(Promise)).toBeNull();
     });
   });
