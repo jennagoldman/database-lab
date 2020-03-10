@@ -2,6 +2,9 @@ const {
   isNumber,
   isString,
   isBoolean,
+  isArray,
+  isObject,
+  isFunction,
   castToNumber,
   castToString,
   castToBoolean,
@@ -37,6 +40,36 @@ describe('validator module', () => {
       expect(isBoolean('')).toBeFalsy();
       expect(isBoolean(3)).toBeFalsy();
     });
+
+    it('properly tells if a value is an array', () => {
+      expect(isArray([1, 2, 3])).toBeTruthy();
+      expect(isArray(['1', '2', '3', '4'])).toBeTruthy();
+      expect(isArray([])).toBeTruthy();
+      expect(isArray(3)).toBeFalsy();
+      expect(isArray(true)).toBeFalsy();
+      expect(isArray('array')).toBeFalsy();
+      expect(isArray({})).toBeFalsy();
+      expect(isArray(() => {})).toBeFalsy();
+    });
+  
+    it('properly tells if a value is an object', () => {
+      expect(isObject({ name: 'jenna' })).toBeTruthy();
+      expect(isObject({ array: ['1', '2', '3', '4'] })).toBeTruthy();
+      expect(isObject([1, 2, 3])).toBeFalsy();
+      expect(isObject({})).toBeTruthy();
+      expect(isObject(3)).toBeFalsy();
+      expect(isObject('object')).toBeFalsy();
+      expect(isObject(true)).toBeFalsy();
+    });
+  
+    it('properly tells if a value is a function', () => {
+      expect(isFunction(() => {})).toBeTruthy();
+      expect(isObject(Math.random)).toBeTruthy();
+      expect(isFunction('hello')).toBeFalsy();
+      expect(isFunction(3)).toBeFalsy();
+      expect(isFunction([1, 2, 3])).toBeFalsy();
+      expect(isFunction({})).toBeFalsy();
+    });
   });
 
   describe('casters', () => {
@@ -68,6 +101,7 @@ describe('validator module', () => {
     it('can get the right caster', () => {
       expect(getCaster(Number)).toEqual(castToNumber);
       expect(getCaster(String)).toEqual(castToString);
+      expect(getCaster(Boolean)).toEqual(castToBoolean);
       expect(getCaster(Promise)).toBeNull();
     });
   });
