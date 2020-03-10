@@ -14,5 +14,17 @@
     "@types/jest": "^24.0.23",
     "eslint": "^6.8.0",
     "jest": "^24.9.0"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jennagoldman/database-lab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jennagoldman/database-lab/issues"
+  },
+  "homepage": "https://github.com/jennagoldman/database-lab#readme"
 }
